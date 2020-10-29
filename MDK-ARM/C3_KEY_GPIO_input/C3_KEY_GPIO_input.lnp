@@ -1,0 +1,28 @@
+--cpu=Cortex-M4.fp.sp
+"c3_key_gpio_input\startup_stm32f401xe.o"
+"c3_key_gpio_input\main.o"
+"c3_key_gpio_input\stm32f4xx_it.o"
+"c3_key_gpio_input\stm32f4xx_hal_msp.o"
+"c3_key_gpio_input\stm32f4xx_hal_tim.o"
+"c3_key_gpio_input\stm32f4xx_hal_tim_ex.o"
+"c3_key_gpio_input\stm32f4xx_hal_uart.o"
+"c3_key_gpio_input\stm32f4xx_hal_rcc.o"
+"c3_key_gpio_input\stm32f4xx_hal_rcc_ex.o"
+"c3_key_gpio_input\stm32f4xx_hal_flash.o"
+"c3_key_gpio_input\stm32f4xx_hal_flash_ex.o"
+"c3_key_gpio_input\stm32f4xx_hal_flash_ramfunc.o"
+"c3_key_gpio_input\stm32f4xx_hal_gpio.o"
+"c3_key_gpio_input\stm32f4xx_hal_dma_ex.o"
+"c3_key_gpio_input\stm32f4xx_hal_dma.o"
+"c3_key_gpio_input\stm32f4xx_hal_pwr.o"
+"c3_key_gpio_input\stm32f4xx_hal_pwr_ex.o"
+"c3_key_gpio_input\stm32f4xx_hal_cortex.o"
+"c3_key_gpio_input\stm32f4xx_hal.o"
+"c3_key_gpio_input\stm32f4xx_hal_exti.o"
+"c3_key_gpio_input\system_stm32f4xx.o"
+"c3_key_gpio_input\key.o"
+"c3_key_gpio_input\led.o"
+--library_type=microlib --strict --scatter "C3_KEY_GPIO_input\C3_KEY_GPIO_input.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "C3_KEY_GPIO_input.map" -o C3_KEY_GPIO_input\C3_KEY_GPIO_input.axf

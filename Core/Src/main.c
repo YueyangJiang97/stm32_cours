@@ -64,6 +64,8 @@ int fputc(int n, FILE *pf)
     HAL_UART_Transmit(&huart2, &ch, 1, 0XFFFF);
     return n;
 }
+/*Key presse EXTI flag*/
+static volatile uint8_t key_flag = 0;
 /* USER CODE END 0 */
 
 /**
@@ -108,9 +110,12 @@ int main(void)
   }
   printf("init succeed\r\n");
   
+#if KEY_MODE == 1  
   uint32_t prev_tick = HAL_GetTick();
   uint8_t key_status = 0;
   uint32_t cur_tick = 0;
+#endif
+
   while (1)
   {
       
@@ -130,7 +135,7 @@ int main(void)
         }
       }
       LED_Control(1);//LED_OFF
-
+      
 #elif KEY_MODE == 1
       
       cur_tick = HAL_GetTick();
@@ -163,8 +168,20 @@ int main(void)
         }
         
       }
-//      printf("out\r\n");
-      
+
+#elif KEY_MODE  == 2
+    if(key_flag == 1)
+    {
+        key_flag = 0;
+        printf("key pressed!\r\n");
+    }
+
+#elif KEY_MODE == 3
+
+    HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI);
+    SystemClock_Config();
+    printf("key pressed !\r\n");
+    
 #endif
       
     /* USER CODE END WHILE */
@@ -269,11 +286,11 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : KEY_input_Pin */
-  GPIO_InitStruct.Pin = KEY_input_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(KEY_input_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
@@ -282,10 +299,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    key_flag = 1;
+}
 /* USER CODE END 4 */
 
 /**

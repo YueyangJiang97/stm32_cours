@@ -1,5 +1,4 @@
-#ifdef __LED_H
-
+#ifndef __LED_H
 #define __LED_H
 /*
  *!

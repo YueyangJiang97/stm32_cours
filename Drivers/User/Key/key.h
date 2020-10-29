@@ -24,7 +24,13 @@
 /* \defgroup KEY_Exported_Defines
  * \{
  */
-   
+#define KEY_MODE        3
+
+#define KEY_PRESS       0
+#define KEY_RELEASE     1  
+
+#define KEY_GPIO_Port   GPIOC
+#define KEY_GPIO_Pin    GPIO_PIN_13
 /**
  * \}
  */
@@ -32,15 +38,9 @@
 /* \defgroup KEY_Exported_Macros
  * \{
  */
-#define KEY_MODE        1
-
-#define KEY_PRESS       0
-#define KEY_RELEASE     1
-
-#define KEY_GPIO_Port   GPIOC
-#define KEY_GPIO_Pin    GPIO_PIN_13
-
+#if KEY_MODE < 2
 #define KEY_READ()  HAL_GPIO_ReadPin(KEY_GPIO_Port, KEY_GPIO_Pin)   
+#endif
 /**
  * \}
  */
